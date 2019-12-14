@@ -1,0 +1,54 @@
+<!--
+  Generated template for the LugaresDescripcionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title center> {{lugar.titulo}} </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="bg">
+
+  <div class="caption" [ngStyle]="{'background-image': bgImage(lugar)}"></div>
+  <img src="assets/imgs/expand.svg"  class="expand-caption" (click)="openCaptionImage()" >
+
+
+  <section padding>
+    <ion-segment [(ngModel)]="segment" class="segment">
+      <ion-segment-button value="descripcion">DESCRIPCION</ion-segment-button>
+      <ion-segment-button value="imagenes">IMAGENES</ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="segment">
+
+      <!-- content de la descripción -->
+      <div *ngSwitchCase="'descripcion'" class="descripcion">
+        <p class>{{lugar.descripcion2}}</p>
+      </div>
+
+      <!-- content de las imagenes -->
+      <div *ngSwitchCase="'imagenes'">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-3 *ngFor="let img of imagenes" >
+              <img [src]="img" height="100%" width="100%">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+    </div>
+
+
+    <!-- btn para abrir el mapa -->
+    <br>
+    <div class="btn-mapa">
+      <button ion-button outline color="royal" (click)="openMapa()" >Ver mapa</button>
+    </div>
+    
+  </section>
+  
+</ion-content>

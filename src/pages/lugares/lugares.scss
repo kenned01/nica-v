@@ -1,0 +1,46 @@
+page-lugares {
+
+    .image-round{
+        background-color: white;
+        width: 120px !important;
+        height: 120px;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    .lugar-tittle{
+        color: color($colors, letra);
+        font-family: Comic Sans MS;
+        font-size: 120%;
+        margin-bottom: 0;
+    }
+
+    .lugar-desc{
+        color: color($colors, letra);
+        font-family: Comic Sans MS;
+        font-size: 85%;
+        margin-top: 2px;
+        margin-bottom: 0;
+    }
+    .link{
+        text-align: left;
+        font-size: 85%;
+        margin: 0;
+        padding: 0 !important;
+        font-family: Comic Sans MS;
+        position: absolute;
+        right: 0;
+        margin-right: 8%;
+    }
+    ion-grid{
+        height: 100%;
+        padding-left: 12px;
+        ion-row{
+            height: 23%;
+            margin-bottom: 20px;
+        }
+    }
+}

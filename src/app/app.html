@@ -1,0 +1,24 @@
+<ion-menu [content]="content" >
+  <ion-content class="body">
+
+    <ion-icon name="close" menuClose class="sb-close"></ion-icon>
+    <br><br><br>
+
+    <section class="sb-logo">
+      <img src="assets/imgs/icon-verde-claro.svg" alt="" srcset="">
+      <h5 class="sb-titulo">NICARAGUA <br>VERDE</h5>
+    </section>
+
+    <section class="sb-links">
+      <p>Home</p>
+      <p>Descripcion</p>
+      <p>about us</p>
+      <p>información</p>
+    </section>
+    
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

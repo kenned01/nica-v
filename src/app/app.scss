@@ -1,0 +1,77 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+// reglas para el header
+.toolbar-background-md {background-color: color($colors, header);}
+
+//reglas para el titulo del header
+.toolbar-title-md { color: color($colors, bg) }
+
+//reglas para el del header
+.bar-button-menutoggle-md ion-icon { font-size: 3.4rem; }
+
+.body{background-color: color($colors, bg)}
+
+.logo-navbar{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 5%;
+    height: 55%;
+    width: 10%;
+    margin-right: 2%;
+}
+
+/*
+    reglas para el sidebar
+*/
+.sb-close{
+    color: color($colors, letra);
+    font-size: 43px;
+    position: absolute;
+    right: 7px;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+
+}
+.sb-close:hover{
+    cursor: pointer;
+}
+.sb-logo{
+    height: 40%;
+    width: 100%;
+    img{
+        height: 56%;
+        width: 56%;
+        margin-left: 22%;
+    }
+    .sb-titulo{
+        text-align: center;
+        color: color($colors, letra);
+        font-size: 135%;
+        font-family: Segoe Ui;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+}
+.sb-links{
+    color: color($colors, links);
+    margin-left: 15%;
+}
+
+.bg {background-color: color($colors, bg);}
