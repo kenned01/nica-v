@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- tell the browser to be responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- favicon -->
+  <link rel="icon"  href="{{url_for('static', filename='dist/img/NV-logo.png')}}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css' )}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.css' )}}">
+  <!-- overlay -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css' )}}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  {% block head %}
+  {% endblock %}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+      
+      <nav class="main-header navbar navbar-expand navbar-dark navbar-success">
+          <!-- Left navbar links -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+            </li>
+          </ul>
+      
+          <!-- Right navbar links -->
+          <ul class="navbar-nav ml-auto">
+            <!-- Messages Dropdown Menu -->
+            <li class="nav-item dropdown">
+              <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="far fa-user"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a href="#" class="dropdown-item" style="padding: 0px" >
+                  <p id="logout" style="margin: 0px; padding-left: 2%;"><i class="fas fa-power-off"></i>&nbsp;Cerrar Sesión</p>
+                </a>
+              </div>
+            </li>
+          </ul>
+      </nav>
+      
+      <aside class="main-sidebar sidebar-light-success elevation-4">
+          <!-- Brand Logo -->
+          <a href="index3.html" class="brand-link navbar-success">
+            <img src="{{ url_for('static', filename='dist/img/NV-logo-drak.svg' )}}"  height="40px" width="40px">
+            <span class="brand-text font-weight-light" style="color: #fff !important">Nicaragua Verde</span>
+          </a>
+      
+          <!-- Sidebar -->
+          <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+
+            {% block user %}
+            {% endblock %}
+      
+            <nav class="mt-2">
+              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+               
+                <li class="nav-item">
+                  <a href="/admin-user" class="nav-link" id="suser"><!-- id para añadir clase 'active' con js -->
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                      Usuarios
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin-dept" class="nav-link" id="sdept">
+                    <i class="nav-icon fas fa-home"></i>
+                    <p>
+                      Departamentos
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin-reserva" class="nav-link" id="sreserva">
+                    <i class="nav-icon fas fa-plane"></i>
+                    <p>
+                      Reservas
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin-contacto" class="nav-link" id="scontact">
+                    <i class="nav-icon far fa-address-book"></i>
+                    <p>
+                      Contactos
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin-actividad" class="nav-link" id="sactivity">
+                    <i class="nav-icon fas fa-hiking"></i>
+                    <p>
+                      Actividades
+                    </p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin-foto" class="nav-link" id="sfoto">
+                    <i class="nav-icon far fa-images"></i>
+                    <p>
+                      Fotos
+                    </p>
+                  </a>
+                </li>
+
+              </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+          </div>
+          <!-- /.sidebar -->
+      </aside>
+        
+      {% block content %}
+      {% endblock %}
+      <!-- /.content-wrapper -->
+      <footer class="main-footer">
+          <strong>Copyright &copy; 2019 Nicaragua Verde</strong> Todos los derechos reservados
+      </footer>
+  </div>
+
+  
+  <!-- jQuery -->
+  <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js' )}}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js' )}}"></script>
+  <!-- AdminLTE App -->
+  <script src="{{ url_for('static', filename='dist/js/adminlte.min.js' )}}"></script>
+  <script src="{{ url_for('static', filename='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' )}}"></script>
+  {% block scripts %}
+  {% endblock  %}
+</body>
+</html>

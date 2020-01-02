@@ -1,0 +1,104 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:500);
+
+:root {
+	--base: 14px;
+}
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+
+.containerImg {
+	max-width: 100%;
+	margin: 0 auto;
+	padding: 0 1rem 2rem;
+}
+
+.heading {
+	font-family: "Montserrat", Arial, sans-serif;
+	font-size: calc(var(--base) * 2.5);
+	font-weight: 500;
+	line-height: 1.5;
+	text-align: center;
+	padding: calc(var(--base) * 2.5) 0;
+	color: #1a1a1a;
+}
+
+.gallery {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.gallery-item {
+	flex: 1 0 calc(var(--base) * 10);
+	margin: calc(var(--base) * 1);
+	box-shadow: calc(var(--base) * 0.3) calc(var(--base) * 0.4) calc(var(--base) * 0.4) rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    position: relative;
+}
+
+.gallery-image {
+	width: 100%;
+	height: 101%;
+	object-fit: cover;
+	transition: transform 400ms ease-out;
+}
+
+.gallery-image:hover {
+	transform: scale(1.15);
+}
+
+.opciones{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.gallery-item:hover > .opciones > p{
+	opacity: 1;
+}
+.opciones p{
+    opacity: 0;
+    margin: 1%;
+    color: black;
+    font-size: calc(var(--base) * 1.25);
+    background-color: rgb(255, 255, 255);
+    transition: 1s ease-out;
+    cursor: pointer;
+	user-select: none;
+	width: calc(var(--base) * 2);
+	text-align: center;
+	transition: .5s ease-out;
+}
+
+.opciones p:hover{
+	background-color: rgb(77, 77, 255);
+	color: #fff;
+}
+
+#filter{
+	margin-bottom: calc(var(--base) * 1);
+	font-size: calc(var(--base) * 1);
+	border: 1px solid rgb(119, 119, 119);
+	border-radius: 3px;
+	padding: 0.4% 0.5%;
+}
+
+@media screen  and (min-width: 0px) and (max-width: 768px){
+	.opciones  p{opacity: 1;}
+}
+
+@supports (display: grid) {
+	.gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(calc(var(--base) * 10), calc(var(--base) * 10)));
+		grid-gap: calc(var(--base) * 0.8);
+	}
+
+	.gallery,
+	.gallery-item {
+		margin: 0;
+	}
+}

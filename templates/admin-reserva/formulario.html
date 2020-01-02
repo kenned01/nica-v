@@ -1,0 +1,134 @@
+{% extends 'layout.html' %}
+{% block head %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Nicaragua Verde</title>
+  <!-- drop-file -->
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/drop-file/file-drop.css')}}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/select2/css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+  <!-- estilo propio -->
+  <style>
+    .brand-link {padding: 0.50rem .5rem 0.50rem 1rem;}
+    @media screen and (min-width: 576px) {
+      .card-success{
+        margin: 0% 10%;
+      }
+    }
+  </style>
+  <!-- login required -->
+  <script src="{{ url_for('static', filename='admin-js/auth1.js' )}}"></script>
+  <script src="{{ url_for('static', filename='admin-js/auth2.js' )}}"></script>
+  <script>
+    var Session = new Auth()
+    Session.verifyAuth()
+  </script>
+{% endblock %}
+
+{% block user %}
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+      <img src="{{ url_for('static', filename='dist/img/user2-160x160.jpg' )}}" id="userImg" class="img-circle elevation-2" alt="User Image">  
+    </div>
+    <div class="info">
+      <a href="#" class="d-block" id="username">KronosCode</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Reserva</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item "><a href="/admin-reserva">Reservas</a></li>
+              <li class="breadcrumb-item active">registro de reserva</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">Agregar Rserva</h3>
+            </div>
+            <!-- form start -->
+            <form role="form">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="input1">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" placeholder="Escriba el nombre de la reserva" required>
+                </div>
+                <div class="form-group">
+                  <label for="input2">coordenadas</label>
+                  <input type="text" class="form-control" id="coordenadas" placeholder="Coordenadas del lugar" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Departamento</label>
+                  
+                  <select class="form-control select2bs4" style="width: 100%;" id="departamento" required>
+                    {% for departamento in departamentos %}
+                    <option value="{{departamento['id']}}">{{ departamento['nombre'] }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="input2">Descripción</label>
+                  <textarea class="form-control" id="descripccion" placeholder="Escriba una Descripción" autocomplete="off"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="input2">Sipnosis</label>
+                  <textarea class="form-control" id="sipnosis" placeholder="Escriba una sipnosis" autocomplete="off"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label>Imagen de Fondo</label>
+                  <div class="file-container" id="file-drop">
+                    <input type="file" id="file-drop-input" required>
+                    <p>Arrastra tus archivos aqui o Click aqui para buscar</p>
+                  </div>
+                </div>
+
+              </div>           
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-success">Agregar</button>
+                <button type="reset"  class="btn btn-danger">Cancelar</button>
+              </div>
+            </form>
+          </div><br />
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Select2 -->
+<script src="{{url_for('static', filename='plugins/select2/js/select2.full.min.js')}}"></script>
+<!-- drop-file -->
+<script src="{{url_for('static', filename='plugins/drop-file/file-drop.js')}}"></script>
+<!-- page script -->
+<script src="{{url_for('static', filename='admin-js/reserva-form.js')}}"></script>
+{% endblock %}

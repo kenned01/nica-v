@@ -1,0 +1,190 @@
+{% extends 'layout.html' %}
+{% block head %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Nicaragua Verde</title>
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.css' )}}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/toastr/toastr.min.css' )}}">
+  <!-- estilo propio -->
+  <style>.brand-link {padding: 0.50rem .5rem 0.50rem 1rem;} i{cursor: pointer; }</style>
+  <!-- login required -->
+  <script src="{{ url_for('static', filename='admin-js/auth1.js' )}}"></script>
+  <script src="{{ url_for('static', filename='admin-js/auth2.js' )}}"></script>
+  <script>
+    var Session = new Auth()
+    Session.verifyAuth()
+  </script>
+{% endblock %}
+
+{% block user %}
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+      <img src="{{ url_for('static', filename='dist/img/user2-160x160.jpg' )}}" id="userImg" class="img-circle elevation-2" alt="User Image">  
+    </div>
+    <div class="info">
+      <a href="#" class="d-block" id="username">KronosCode</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Registros de Reserva</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Reservas</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <a href="/admin-reserva/registro" style="color:#28a745 !important">
+                  <i class="fas fa-plus"></i>&nbsp;&nbsp;Agregar Reserva
+                </a>
+              </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body" style="overflow-x: scroll;">
+              <table id="table1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Descripcción</th>
+                  <th>Imagen</th>
+                  <th>Ubicación</th>
+                  <th>sipnosis</th>
+                  <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for reserva in reservas %}
+                  <tr id="id{{reserva['id']}}">
+                    <td>{{reserva['id']}}</td>
+                    <td>{{reserva['nombre']}}</td>
+                    <td>{{reserva['descripccion']}}</td>
+                    <td>{{reserva['imagenFondo']}}</td>
+                    <td>{{reserva['coordenadas']}}</td>
+                    <td>{{reserva['sipnosis']}}</td>
+                    <td>
+                      <a href="/admin-reserva/registro?id={{reserva['id']}}"><i class="fas fa-edit" style="color: #28a745"></i></a>
+                      <i class="fas fa-trash" style="color: #ff0000" onclick="deleteReserva(`{{reserva['id']}}`)"></i>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- DataTables -->
+<script src="{{ url_for('static', filename='plugins/datatables/jquery.dataTables.min.js' )}}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.js' )}}"></script>
+<!-- Toastr -->
+<script src="{{ url_for('static', filename='plugins/toastr/toastr.min.js' )}}"></script>
+<!-- page script -->
+<script>
+  
+
+  (function mensajes(){
+    let uri = new URL(window.location.href)
+    let msj =  uri.searchParams.get("msj")
+
+
+    if (msj == 1){
+      toastr.info('Reserva Agregada','Exíto', {timeOut: 3000})
+    }else if (msj == 2){
+      toastr.info('Reserva Editada','Exíto', {timeOut: 3000})
+    }else if(msj == 3){
+      toastr.error('Ha habido un error', 'Error', {timeOut: 3000})
+    }
+    if (msj != null){
+      window.history.replaceState("any", "any", "/admin-reserva")
+    }
+  })();
+
+  let table = $("#table1").DataTable();
+  $("#sreserva").addClass("active")
+
+  
+  function deleteTableRow(id){
+    let fila = $(`#id${id}`)
+    table.rows(fila).remove()
+    table.draw()
+    toastr.info('Reserva Eliminada','Exíto', {timeOut: 3000})
+  }
+
+  async function deleteReserva(id){
+
+    try {
+      let headers = new Headers()
+      headers.append("Auth", "nv/@pi~kronno")
+
+      let response = await fetch(`/nv-api/reservas/${id}`, {
+        method: 'delete' ,
+        headers: headers
+      })
+      let status = response.status
+      let json = await response.json()
+
+      console.table(json)
+      console.log(status)
+      if (json.mensaje === "reserva eliminada"){
+        deleteTableRow(id)
+      }else{
+        toastr.error('error al eliminar la reserva')
+      } 
+    } catch (error) {
+      console.error(error)
+      toastr.error('error al eliminar la reserva', 'error', {timeOut: 3000})
+    }
+
+  }
+  document.querySelector("#logout").addEventListener( 'click' ,function(e){
+    e.preventDefault()
+    Session.destroyAuth()
+  })
+  function setImg(){
+
+    let user = Session.properties
+
+    document.querySelector("#username").innerHTML = user.username
+    
+    if(user.avatar.substring(0,5) == "https"){
+      document.querySelector("#userImg").src = user.avatar
+    }else{
+      document.querySelector("#userImg").src = `/multimedia/${user.avatar}`
+    }
+
+  }
+  setImg()
+</script>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends 'layout.html' %}
+{% block head %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Nicaragua Verde</title>
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/toastr/toastr.min.css' )}}">
+  <!-- gallery -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/gallery/style.css' ) }}">
+  <!-- estilo propio -->
+  <style>.brand-link {padding: 0.50rem .5rem 0.50rem 1rem;} i{cursor: pointer; }</style>
+  <!-- login required -->
+  <script src="{{ url_for('static', filename='admin-js/auth1.js' )}}"></script>
+  <script src="{{ url_for('static', filename='admin-js/auth2.js' )}}"></script>
+  <script>
+    var Session = new Auth()
+    Session.verifyAuth()
+  </script>
+{% endblock %}
+
+{% block user %}
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+      <img src="{{ url_for('static', filename='dist/img/user2-160x160.jpg' )}}" id="userImg" class="img-circle elevation-2" alt="User Image">  
+    </div>
+    <div class="info">
+      <a href="#" class="d-block" id="username">KronosCode</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Galeria </h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Galleria</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+          <input type="hidden" id="data" value="{{fotos}}">
+
+          <div class="containerImg">
+            
+            <a href="/admin-foto/registro" class="btn btn-success"  style="color: #fff; cursor: pointer;">Agregar Imagen</a>
+            <select id="filter" style="padding: 0.49rem 0.75rem;">
+            </select>
+    
+            <div class="gallery">
+            </div>
+        
+          </div>
+    
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">Imagen</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  
+                </div>
+                <div class="modal-body" style="padding: 0.2rem;">
+                  <img id="modal-img" src="" width="100%" height="100%">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Toastr -->
+<script src="{{ url_for('static', filename='plugins/toastr/toastr.min.js' )}}"></script>
+<!-- gallery -->
+<script src="{{ url_for('static', filename='plugins/gallery/index.js')}}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- page script -->
+<script>
+  
+  
+
+  (function mensajes(){
+    let uri = new URL(window.location.href)
+    let msj =  uri.searchParams.get("msj")
+
+
+    if (msj == 1){
+      toastr.info('Foto Agregada','Exíto', {timeOut: 3000})
+    }else if (msj == 2){
+      toastr.info('Foto Editada','Exíto', {timeOut: 3000})
+    }else if(msj == 3){
+      toastr.error('Error', 'Error', {timeOut: 3000})
+    }
+    if (msj != null){
+      window.history.replaceState("any", "any", "/admin-foto")
+    }
+  })();
+
+  $("#sfoto").addClass("active")
+  let fotos = document.querySelector("#data").value
+  fotos = fotos.split("'").join('"')
+  fotos = JSON.parse(fotos)
+  
+  fotos.forEach(x => {
+    if (x.uri.substr(0, 6) != "https:"){
+      x.uri = '/multimedia/' + x.uri 
+    }
+  })
+
+  let gallery = new Gallery(fotos)
+  gallery.buildGallery()
+  gallery.buildSelector()
+
+  gallery.beforeDelete(async function (id){
+    let willDelete = false
+    try{
+      let response = await fetch('/nv-api/fotos/' + id, {
+        headers: {"Auth": "nv/@pi~kronno" },
+        method: "DELETE"
+      })
+
+      response = await response.json()
+      console.log(response)
+      if (response.mensaje == "foto eliminada"){
+        willDelete = true
+        toastr.info('Foto Eliminada','Exíto', {timeOut: 3000})
+      }
+    }catch(error){
+      toastr.error('Ha habido un error', 'Error', {timeOut: 3000})
+    }
+
+    return willDelete
+  })
+
+  document.querySelector("#logout").addEventListener( 'click' ,function(e){
+    e.preventDefault()
+    Session.destroyAuth()
+  })
+  function setImg(){
+
+    let user = Session.properties
+
+    document.querySelector("#username").innerHTML = user.username
+    
+    if(user.avatar.substring(0,5) == "https"){
+      document.querySelector("#userImg").src = user.avatar
+    }else{
+      document.querySelector("#userImg").src = `/multimedia/${user.avatar}`
+    }
+
+  }
+  setImg()
+</script>
+
+{% endblock %}
