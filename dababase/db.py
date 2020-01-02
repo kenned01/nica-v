@@ -31,11 +31,11 @@ def getConnectionPool():
         connectionPool = psycopg2.pool.SimpleConnectionPool(
             1,
             20,
-            user="postgres",
-            password="Usuario123#.",
-            host="localhost",
+            user="kkyyucywmdkqrk",
+            password="9e96d4438289b729f5ab9320b9528d4e3373d0f7a9632b87fb37ab3d54e54a88",
+            host="ec2-107-21-235-87.compute-1.amazonaws.com",
             port="5432",
-            database="nv")
+            database="damnbiuae33fka")
 
     except (Exception, psycopg2.Error) as error:
         print("Error while connecting to PostgreSQL " + error.__str__())
