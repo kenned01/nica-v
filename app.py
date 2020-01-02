@@ -237,8 +237,6 @@ api.add_resource(fotos, '/nv-api/fotos')
 api.add_resource(foto, '/nv-api/fotos/<int:id>')
 
 # setting port to our application
-port = int(os.environ.get('PORT', 8080))
 if __name__ == '__main__':
-    app.run(debug=True, port=port)
-else:
-    app.run(debug=False, port=port)
+    # Threaded option to enable multiple instances for multiple user access support
+    app.run(threaded=True, port=5000)
