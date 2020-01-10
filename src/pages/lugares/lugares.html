@@ -13,19 +13,31 @@
 </ion-header>
 
 <ion-content class="body">
-  <!-- <h1> this is the lugares home</h1> -->
   <br>
   <ion-grid >
-    <ion-row *ngFor="let lugar of lugares">
-        <ion-col col-5 class="image-width">
-          <div class="image-round" [ngStyle]="{'background-image': bgImage(lugar)}"></div>
+    <ion-row *ngFor="let reserva of reservas">
+        <ion-col col-4 class="image-container" [ngStyle]="{'height': setheight() }">
+          <img class="image"  src="https://nica-v.herokuapp.com/multimedia/{{reserva.imagenFondo}}" >
         </ion-col>
           
-        <ion-col col-7>
-          <p class="lugar-tittle">{{lugar.titulo}}</p>
-          <p class="lugar-desc">{{lugar.descripcion}}</p>
-          <button class="link" ion-button clear color="links" (click)="irLugarDesc(lugar)">ver más</button>
+        <ion-col col-8>
+          <p class="lugar-tittle">{{reserva.nombre}}</p>
+          <p class="lugar-desc">{{reserva.sipnosis}}</p>
+          <button class="link" ion-button clear color="links" (click)="irLugarDesc(reserva)">ver más</button>
         </ion-col>
     </ion-row>
   </ion-grid>
+
+
+  <section *ngIf="error != null">
+    <p>Error al obtener los datos</p>
+  </section>
+
+  <section *ngIf="reservas == null">
+    <p>Todavia no hay nada</p>
+  </section>
+
+  <ion-fab bottom right edge (click)="filter()">
+    <button ion-fab mini><ion-icon name="funnel"></ion-icon></button>
+  </ion-fab>
 </ion-content>

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
+import { HttpClientModule } from '@angular/common/http';
 import { MyApp } from './app.component';
 
 import { LugarMapaPage } from '../pages/lugar-mapa/lugar-mapa';
@@ -10,7 +10,8 @@ import { LugaresDescripcionPage } from '../pages/lugares-descripcion/lugares-des
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { LugaresProvider } from '../providers/lugares/lugares';
+import { ReservasProvider } from '../providers/reservas/reservas';
+import { DepartamentosProvider } from '../providers/departamentos/departamentos';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LugaresProvider } from '../providers/lugares/lugares';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -34,7 +36,8 @@ import { LugaresProvider } from '../providers/lugares/lugares';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LugaresProvider
+    ReservasProvider,
+    DepartamentosProvider
   ]
 })
 export class AppModule {}
