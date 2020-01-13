@@ -30,6 +30,22 @@ def getfromTable(cursor):
     return data
 
 
+def getfromTableReserva(cursor, idreserva):
+    query = "select * from foto where idreserva = %s"
+    params = (idreserva, )
+    cursor.execute(query, params)
+    fotos = cursor.fetchall()
+
+    data = []
+    for foto in fotos:
+        data.append({
+            "id": foto[0],
+            "idreserva": foto[1],
+            "uri": foto[2]
+        })
+    return data
+
+
 def getfromTableId(cursor, id):
     query = "select * from foto where id = %s"
     params = (id,)

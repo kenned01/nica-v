@@ -28,7 +28,13 @@ class fotos(Resource):
             connection = self.db.connectionPool.getconn()
             cursor = connection.cursor()
 
-            data = fotoImp.getfromTable(cursor)
+            id = request.args.get('idreserva', '-1')
+            data = [{}]
+
+            if id != "-1":
+                data = fotoImp.getfromTableReserva(cursor, id)
+            else:
+                data = fotoImp.getfromTable(cursor)
 
             cursor.close()
             self.db.connectionPool.putconn(connection)
