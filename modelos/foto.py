@@ -32,6 +32,7 @@ class fotos(Resource):
             data = [{}]
 
             if id != "-1":
+                print("query param")
                 data = fotoImp.getfromTableReserva(cursor, id)
             else:
                 data = fotoImp.getfromTable(cursor)

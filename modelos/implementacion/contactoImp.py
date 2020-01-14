@@ -63,6 +63,25 @@ def getfromTable(cursor):
     return data
 
 
+def getfromTableReserva(cursor, idreserva):
+    query = "select * from contacto where idreserva = %s"
+    params = (idreserva, )
+    cursor.execute(query, params)
+    
+    contacto = cursor.fetchone()
+
+    if not cursor.rowcount:
+        return {"mensaje": "contacto no encontrado"}
+
+    return {
+        "id": contacto[0],
+        "idreserva": contacto[1],
+        "correo": contacto[2],
+        "numero": contacto[3],
+        "direccion": contacto[4]
+    }
+
+
 def getfromTableId(cursor, id):
     query = "select * from contacto where id = %s"
     params = (id,)

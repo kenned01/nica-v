@@ -17,7 +17,13 @@ class contactos(Resource):
             connection = self.db.connectionPool.getconn()
             cursor = connection.cursor()
 
-            data = contactoImp.getfromTable(cursor)
+            idreserva = request.args.get('idreserva', '-1')
+            data = [{}]
+            if idreserva != "-1":
+                print("query param")
+                data = contactoImp.getfromTableReserva(cursor, idreserva)
+            else:
+                data = contactoImp.getfromTable(cursor)
 
             cursor.close()
             self.db.connectionPool.putconn(connection)

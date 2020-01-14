@@ -16,7 +16,13 @@ class actividades(Resource):
             connection = self.db.connectionPool.getconn()
             cursor = connection.cursor()
 
-            data = actividadImp.getfromTable(cursor)
+            idreserva = request.args.get('idreserva', '-1')
+            data = [{}]
+            if idreserva != "-1":
+                print("query param")
+                data = actividadImp.getfromTableReserva(cursor, idreserva)
+            else:
+                data = actividadImp.getfromTable(cursor)
 
             cursor.close()
             self.db.connectionPool.putconn(connection)
