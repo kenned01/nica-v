@@ -6,49 +6,46 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title center> {{lugar.titulo}} </ion-title>
+    <ion-title center> {{reserva.nombre}} </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="bg">
 
-  <div class="caption" [ngStyle]="{'background-image': bgImage(lugar)}"></div>
-  <img src="assets/imgs/expand.svg"  class="expand-caption" (click)="openCaptionImage()" >
+  <div class="caption" [ngStyle]="{'background-image': bgImage()}"></div>
+  <img src="assets/imgs/expand.svg"  class="expand-caption" (click)="openImage(getImage(reserva))" >
 
 
-  <section padding>
-    <ion-segment [(ngModel)]="segment" class="segment">
-      <ion-segment-button value="descripcion">DESCRIPCION</ion-segment-button>
-      <ion-segment-button value="imagenes">IMAGENES</ion-segment-button>
+  <aside id="sticky">
+    <ion-segment  class="Tabs"  >
+      <ion-segment-button *ngFor='let tab of tabs ; let i = index ' value="IngoreMe" (click)="selectTab(i)"
+        [ngClass]='{ "activeTab" : activeTab(i,tabs) }' >
+        {{tab}}
+      </ion-segment-button>
     </ion-segment>
 
-    <div [ngSwitch]="segment">
+    <!-- here is our dynamic line  "indicator"-->
+    <div id='indicator' class="indicatorSegment" [ngStyle]="{'width.%': (100/this.tabs.length)}"></div>
+  </aside>
 
-      <!-- content de la descripción -->
-      <div *ngSwitchCase="'descripcion'" class="descripcion">
-        <p class>{{lugar.descripcion2}}</p>
-      </div>
-
-      <!-- content de las imagenes -->
-      <div *ngSwitchCase="'imagenes'">
-        <ion-grid>
-          <ion-row>
-            <ion-col col-3 *ngFor="let img of imagenes" >
-              <img [src]="img" height="100%" width="100%">
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
-
-    </div>
-
-
-    <!-- btn para abrir el mapa -->
-    <br>
-    <div class="btn-mapa">
-      <button ion-button outline color="royal" (click)="openMapa()" >Ver mapa</button>
-    </div>
-    
-  </section>
+	<ion-slides #TabsSlider  (ionSlideDrag)="animateIndicator($event)"
+							(ionSlideWillChange)="updateIndicatorPosition()"
+							(ionSlideDidChange)="updateIndicatorPosition()"
+							(pan)="updateIndicatorPosition()"
+							[pager]="false"
+				>
+		<ion-slide>
+      <p [innerHTML]="getDescription(reserva.descripccion)"></p>
+		</ion-slide>
+		<ion-slide>
+			<h1>Page 2 </h1>
+		</ion-slide>
+		<ion-slide>
+			<h1>Page 3 </h1>
+		</ion-slide>
+		<ion-slide>
+			<h1>Page 4 </h1>
+		</ion-slide>
+	</ion-slides>
   
 </ion-content>

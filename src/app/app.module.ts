@@ -12,6 +12,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ReservasProvider } from '../providers/reservas/reservas';
 import { DepartamentosProvider } from '../providers/departamentos/departamentos';
+import { PhotosProvider } from '../providers/photos/photos';
+
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { ContactosProvider } from '../providers/contactos/contactos';
+import { ActividadesProvider } from '../providers/actividades/actividades';
 
 @NgModule({
   declarations: [
@@ -35,9 +40,13 @@ import { DepartamentosProvider } from '../providers/departamentos/departamentos'
   providers: [
     StatusBar,
     SplashScreen,
+    PhotoViewer,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ReservasProvider,
-    DepartamentosProvider
+    DepartamentosProvider,
+    PhotosProvider,
+    ContactosProvider,
+    ActividadesProvider
   ]
 })
 export class AppModule {}

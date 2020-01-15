@@ -16,28 +16,6 @@ page-lugares-descripcion {
         margin-top: -33px;
         cursor: pointer;
     }
-
-    .segment{
-        .segment-button{
-            color: color($colors, letra) !important;
-            font-weight: bold;
-            font-size: 100%;
-            
-        }
-        .segment-activated{
-            border-color: white !important;
-            background-color: rgba($color: #000000, $alpha: 0.3);
-        }
-    }
-
-    .descripcion{
-        color: color($colors, letra);
-        padding: 4% 6% 0% 6%;
-    }
-
-    [col-3]{
-        padding: 1px;
-    }
     .btn-mapa{
         width: 100%;
         height: 8% !important;
@@ -52,5 +30,43 @@ page-lugares-descripcion {
             border-color: color($colors, links);
             color: color($colors, links);
         }
+    }
+
+    //swipe slices
+    .indicatorSegment  {
+        transition:  0.3s all;
+        transform-origin: top 0 left 0;
+        height: 1px;
+	    position: relative;
+	    top: -2px;
+        background-color: color($colors, letra) !important;
+    }
+    .Tabs ion-segment-button {
+    	border:none !important;
+        color:color($colors, secondary) !important;
+        text-transform: initial !important;
+    }
+    .segment-button{
+        font-weight: normal !important;
+        font-size: 1.3rem !important;
+    }
+    .Tabs ion-segment-button.activeTab {
+        color:color($colors, letra) !important;
+        font-weight: bold !important;
+        font-size: 1.5rem !important;
+    }
+    .Tabs {
+    	border-bottom: solid 1px  color($colors,bg) !important;
+    }
+
+    #sticky{
+        top: 0;
+        position: sticky;
+        background-color: #021515;
+        z-index: 999;
+    }
+
+    ion-slides{
+        height: auto;
     }
 }

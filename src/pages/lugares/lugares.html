@@ -14,30 +14,37 @@
 
 <ion-content class="body">
   <br>
-  <ion-grid >
+  <ion-grid>
     <ion-row *ngFor="let reserva of reservas">
         <ion-col col-4 class="image-container" [ngStyle]="{'height': setheight() }">
-          <img class="image"  src="https://nica-v.herokuapp.com/multimedia/{{reserva.imagenFondo}}" >
+          <img class="image"  [src]="getImage(reserva)" (click)="openImage(getImage(reserva))">
         </ion-col>
           
-        <ion-col col-8>
-          <p class="lugar-tittle">{{reserva.nombre}}</p>
-          <p class="lugar-desc">{{reserva.sipnosis}}</p>
-          <button class="link" ion-button clear color="links" (click)="irLugarDesc(reserva)">ver más</button>
+        <ion-col col-8 (click)="irLugarDesc(reserva)">
+          <div class="lugar">
+            <p class="lugar-desc">
+              <span class="lugar-tittle">{{reserva.nombre}}</span>
+              {{reserva.sipnosis}}
+            </p>
+          </div>
         </ion-col>
     </ion-row>
   </ion-grid>
 
 
-  <section *ngIf="error != null">
-    <p>Error al obtener los datos</p>
+  <section id="error" *ngIf="error == true">
+    <img src="assets/imgs/connection-lost.svg" alt="" srcset="">
+    <br>
+    <div>
+      <button ion-button color="letra" outline (click)="tryFetch()">Intentar de nuevo</button>
+    </div>
   </section>
 
-  <section *ngIf="reservas == null">
+  <section id="empty" *ngIf="isEmpty()">
     <p>Todavia no hay nada</p>
   </section>
 
   <ion-fab bottom right edge (click)="filter()">
-    <button ion-fab mini><ion-icon name="funnel"></ion-icon></button>
+    <button ion-fab mini class="fabB"><ion-icon name="funnel"></ion-icon></button>
   </ion-fab>
 </ion-content>

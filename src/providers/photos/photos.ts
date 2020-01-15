@@ -2,24 +2,25 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /*
-  Generated class for the ReservasProvider provider.
+  Generated class for the PhotosProvider provider.
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
 @Injectable()
-export class ReservasProvider {
+export class PhotosProvider {
 
-  host = "https://nica-v.herokuapp.com/nv-api/reservas";
+  host = "https://nica-v.herokuapp.com/nv-api/fotos";
   proxy = 'https://cors-anywhere.herokuapp.com/';
 
   constructor(public http: HttpClient) {
+    console.log('Hello ContactosProvider Provider');
   }
 
-  async getReservas() {
+  async getFotos(idreserva: string) {
 
     try{
-      let response = fetch(this.proxy+this.host, {
+      let response = fetch(this.proxy+this.host+`?idreserva=${idreserva}`, {
         headers: {"Auth": "nv/@pi~kronno"} 
       })
 
@@ -44,5 +45,5 @@ export class ReservasProvider {
       }
     }
   }
-  
+
 }

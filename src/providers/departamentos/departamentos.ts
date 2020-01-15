@@ -25,9 +25,23 @@ export class DepartamentosProvider {
 
       let json = await (await response).json()
       
-      return json
+      if (json.error == null && json.mensaje == null){
+        return {
+          data: json,
+          error: false
+        }
+      }else{
+        return {
+          data: [],
+          error: true
+        }
+      }
     }catch(error){
       console.error(error)
+      return {
+        data: [],
+        error: true
+      }
     }
   }
 

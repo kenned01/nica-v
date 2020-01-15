@@ -75,3 +75,7 @@
 }
 
 .bg {background-color: color($colors, bg);}
+
+ion-fab[bottom][edge] {
+    bottom: 10px !important;
+}

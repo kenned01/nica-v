@@ -1,6 +1,13 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { LugarMapaPage } from '../lugar-mapa/lugar-mapa';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+
+//providers
+import { ActividadesProvider } from '../../providers/actividades/actividades';
+import { ContactosProvider } from '../../providers/contactos/contactos';
+import { PhotosProvider } from '../../providers/photos/photos';
+
 /**
  * Generated class for the LugaresDescripcionPage page.
  *
@@ -15,32 +22,82 @@ import { LugarMapaPage } from '../lugar-mapa/lugar-mapa';
 })
 export class LugaresDescripcionPage {
 
-  segment = "descripcion";
-  lugar: any;
+  @ViewChild('TabsSlider') TabSlides : Slides 
+  
+  
+  //data per slide
+  reserva: any;
+  contacto: any;
+  fotos: Array<any>;
+  actividades: Array<any>;
 
-  imagenes = [
-    'assets/imgs/Masaya.jpg',
-    'assets/imgs/cañon-somoto.jpg',
-    'assets/imgs/Monbacho.jpg'
-  ];
+  // segment bar
+  IndicatorBar : any = null
+  tabs: any =[];
+  
+  constructor(public navCtrl: NavController, public navParams: NavParams, public photoV: PhotoViewer) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    //this.pais_Prueba = navParams.data.item;
-    this.lugar = navParams.data.lugar;
+    this.tabs=["Descripción", "Fotos" ,"Actividades","Contacto"];
+    this.reserva = navParams.data.reserva;
   }
 
   ionViewDidLoad() {
+    this.IndicatorBar = document.getElementById("indicator");
   }
 
-  bgImage(lugar){
-    return "url('" + lugar.img + "')";
+  getImage(reserva){
+    if(reserva.imagenFondo.substring(0,5) != "https"){
+      return `https://nica-v.herokuapp.com/multimedia/${reserva.imagenFondo}`
+    }else{
+      return reserva.imagenFondo
+    }
   }
-  openCaptionImage(){
-    console.log('caption image openned at ', this.lugar.img )
-  }
+
+  bgImage = () =>`url(${this.reserva.imagenFondo})`
+
+  openImage = (url: string) => { this.photoV.show(url) }
+
+  getDescription = (descripcion: string) => descripcion.split("\n").join("<br />")
 
   openMapa() {
-    console.log('map openned at lat: ' + this.lugar.ubicacion.lat + ' and lng:' + this.lugar.ubicacion.long);
-    this.navCtrl.push(LugarMapaPage, {ubicacion: this.lugar.ubicacion});
+    let ubicacion = this.reserva.coordenadas.split(",").map(x => parseFloat(x))
+    this.navCtrl.push(LugarMapaPage, {ubicacion: ubicacion});
+  }
+
+  async getFotos(){
+
+  }
+  async getContacto(){
+
+  }
+  async getActividades(){
+
+  }
+
+  /**
+   * animation and setting
+   * of swipeable slices
+   */
+  activeTab(i, tabs){
+    return this.TabSlides  && ( this.TabSlides.getActiveIndex() === i || 
+           (tabs.length -1 === i&& this.TabSlides.isEnd() ))
+  }
+
+  selectTab(index) {    
+    this.IndicatorBar.style.webkitTransform = `translate3d(${100 * index}%,0,0)`;
+    this.TabSlides.slideTo(index, 500);
+  }
+
+  updateIndicatorPosition() {
+    // this condition is to avoid passing to incorrect index
+    if( this.TabSlides.length() > this.TabSlides.getActiveIndex()) {
+      this.IndicatorBar.style.webkitTransform = `translate3d( ${this.TabSlides.getActiveIndex() * 100}%,0,0)`;
+    }
+  
+  }
+
+  animateIndicator($event) {
+  	if(this.IndicatorBar)
+   	  this.IndicatorBar.style.webkitTransform = `translate3d(${ (($event.progress * (this.TabSlides.length()-1))*100) }%,0,0)`;
   }
 }

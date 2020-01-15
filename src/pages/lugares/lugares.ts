@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { 
   IonicPage, NavController, 
-  NavParams, AlertController,
-  ToastController  } 
+  AlertController,LoadingController,
+  ToastController   } 
 from 'ionic-angular';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+
+//paginas
 import { LugaresDescripcionPage } from '../lugares-descripcion/lugares-descripcion';
 
 // import providers
@@ -22,50 +25,54 @@ import { DepartamentosProvider } from '../../providers/departamentos/departament
   templateUrl: 'lugares.html',
 })
 
-/* interface Reserva {
-  id: number;
-  idDept: number;
-  nombre: String;
-  descripccion: String;
-  imagenFondo: String;
-  coordenadas: String;
-  sipnosis: String;
-
-} */
-
 export class LugaresPage {
 
 
   reservas: Array<any>;
-  height: String;
-  error: any = null;
   reservasTemp: Array<any>
   departamentos: Array<any>
+  error: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, 
-    public reservaP: ReservasProvider, public alert: AlertController,
-    public toastCtrl: ToastController, public deptP: DepartamentosProvider) {
+  constructor(public navCtrl: NavController, public loadCtrl: LoadingController, 
+    public photoViewer: PhotoViewer, public alert: AlertController,
+    public toastCtrl: ToastController, public deptP: DepartamentosProvider,
+    public reservaP: ReservasProvider) {
   }
 
   async ionViewDidLoad (){
-    let reservasData = await this.reservaP.getReservas()
-    if (reservasData.error != null || reservasData.mensaje != null){
+
+    let load = this.loadCtrl.create({
+      content: "Retrayendo información"
+    })
+    load.present()
+    
+    await this.getDepts()
+    await this.getReservas()
+    load.dismiss()
+  }
+
+  async getReservas(){
+    let {data, error} = await this.reservaP.getReservas()
+
+    if (error){
       this.error = true
-    }else{
-      this.reservas = reservasData
-      this.reservasTemp = reservasData
     }
 
-    let deptData = await this.deptP.getDepts()
-    if (deptData.error == null && deptData.mensaje == null){
-      this.departamentos = deptData
+    if (!error){
+      this.error = false
+      this.reservas = data
+      this.reservasTemp = data
     }
-
   }
 
-  setheight(){
-    return `${document.querySelector("[col-4]").clientWidth}px`;
+  async getDepts(){
+    let {data, error} = await this.deptP.getDepts()
+    if(!error){
+      this.departamentos = data
+    }
   }
+
+  setheight = () => `${document.querySelector("[col-4]").clientWidth}px`
 
   filter(){
 
@@ -104,32 +111,36 @@ export class LugaresPage {
   }
 
   irLugarDesc(reserva){
-    this.navCtrl.push(LugaresDescripcionPage, { lugar: reserva });
+    this.navCtrl.push(LugaresDescripcionPage, { reserva: reserva });
   }
 
-  /*seeMore() {
+  isEmpty(){
+    if(this.reservas != null)
+      if(this.reservas.length < 1){
+        return true
+      }
 
-    console.log('ver mas activo')
-    try {
-        let diferencia = this.Plength - this.cantidadBoton;
-        console.log(diferencia);
-        if(diferencia <= 10 && diferencia > 0){
-          this.prueba = this.pruebaT;
-          this.cantidadBoton = this.Plength;
-        }else if(diferencia > 10){
-  
-          let contador = 0;
-          while(contador < 10){
-            this.prueba.push(this.pruebaT[this.cantidadBoton]);
-            this.cantidadBoton++;
-            contador++;
-          }
-        }else{
-          console.log('ya se mostro todo');
-        }
-    } catch (error) {
-      console.log(error);
+    return false
+  }
+
+  getImage(reserva){
+    if(reserva.imagenFondo.substring(0,5) != "https"){
+      return `https://nica-v.herokuapp.com/multimedia/${reserva.imagenFondo}`
+    }else{
+      return reserva.imagenFondo
     }
-    
-  }*/
+  }
+  
+  async tryFetch(){
+    let load = this.loadCtrl.create({
+      content: "Retrayendo información"
+    })
+    load.present()
+    await this.getDepts()
+    await this.getReservas()
+    load.dismiss()
+  }
+  openImage(img){
+    this.photoViewer.show(img)
+  }
 }
