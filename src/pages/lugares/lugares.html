@@ -1,9 +1,3 @@
-<!--
-  Generated template for the LugaresPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
@@ -14,6 +8,7 @@
 
 <ion-content class="body">
   <br>
+  
   <ion-grid>
     <ion-row *ngFor="let reserva of reservas">
         <ion-col col-4 class="image-container" [ngStyle]="{'height': setheight() }">
@@ -31,7 +26,6 @@
     </ion-row>
   </ion-grid>
 
-
   <section id="error" *ngIf="error == true">
     <img src="assets/imgs/connection-lost.svg" alt="" srcset="">
     <br>
@@ -41,10 +35,11 @@
   </section>
 
   <section id="empty" *ngIf="isEmpty()">
-    <p>Todavia no hay nada</p>
+    <p>Todavia no hay nada en esta sección</p>
   </section>
 
   <ion-fab bottom right edge (click)="filter()">
     <button ion-fab mini class="fabB"><ion-icon name="funnel"></ion-icon></button>
   </ion-fab>
+
 </ion-content>

@@ -4,26 +4,27 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { MyApp } from './app.component';
 
-import { LugarMapaPage } from '../pages/lugar-mapa/lugar-mapa';
-import { LugaresPage } from '../pages/lugares/lugares';
-import { LugaresDescripcionPage } from '../pages/lugares-descripcion/lugares-descripcion';
+// activities
+//import { LugarMapaPage } from '../pages/lugar-mapa/lugar-mapa';
+//import { LugaresPage } from '../pages/lugares/lugares';
+//import { LugaresDescripcionPage } from '../pages/lugares-descripcion/lugares-descripcion';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+//providers
 import { ReservasProvider } from '../providers/reservas/reservas';
 import { DepartamentosProvider } from '../providers/departamentos/departamentos';
 import { PhotosProvider } from '../providers/photos/photos';
-
-import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { ContactosProvider } from '../providers/contactos/contactos';
 import { ActividadesProvider } from '../providers/actividades/actividades';
 
+//native components
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { Toast } from '@ionic-native/toast';
+
 @NgModule({
   declarations: [
-    MyApp,
-    LugarMapaPage,
-    LugaresPage,
-    LugaresDescripcionPage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -32,15 +33,13 @@ import { ActividadesProvider } from '../providers/actividades/actividades';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    LugarMapaPage,
-    LugaresPage,
-    LugaresDescripcionPage
+    MyApp
   ],
   providers: [
     StatusBar,
     SplashScreen,
     PhotoViewer,
+    Toast,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ReservasProvider,
     DepartamentosProvider,

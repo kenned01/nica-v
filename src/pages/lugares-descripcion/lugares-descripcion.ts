@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
-import { LugarMapaPage } from '../lugar-mapa/lugar-mapa';
+import { Toast } from '@ionic-native/toast';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 //providers
 import { ActividadesProvider } from '../../providers/actividades/actividades';
 import { ContactosProvider } from '../../providers/contactos/contactos';
 import { PhotosProvider } from '../../providers/photos/photos';
+
 
 /**
  * Generated class for the LugaresDescripcionPage page.
@@ -32,46 +33,126 @@ export class LugaresDescripcionPage {
   actividades: Array<any>;
 
   // segment bar
-  IndicatorBar : any = null
-  tabs: any =[];
+  IndicatorBar : any = null;
+  tabs: any = [];
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public photoV: PhotoViewer) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public photoV: PhotoViewer, public toast: Toast,
+    public fotosP: PhotosProvider, public contactoP: ContactosProvider, public actividadP: ActividadesProvider) {
 
     this.tabs=["Descripción", "Fotos" ,"Actividades","Contacto"];
     this.reserva = navParams.data.reserva;
   }
 
-  ionViewDidLoad() {
+  async ionViewDidLoad() {
     this.IndicatorBar = document.getElementById("indicator");
+    //await this.getFotos()
+    //await this.getActividades()
+    //await this.getContacto()
   }
 
-  getImage(reserva){
-    if(reserva.imagenFondo.substring(0,5) != "https"){
-      return `https://nica-v.herokuapp.com/multimedia/${reserva.imagenFondo}`
+  getImage(uri: string){
+    if(uri.substring(0,5) != "https"){
+      return `https://nica-v.herokuapp.com/multimedia/${uri}`
     }else{
-      return reserva.imagenFondo
+      return uri
     }
   }
 
-  bgImage = () =>`url(${this.reserva.imagenFondo})`
+  bgImage() {
+    if(this.reserva.imagenFondo.substring(0,5) != "https"){
+      return `url(https://nica-v.herokuapp.com/multimedia/${this.reserva.imagenFondo})`;
+    }else{
+      return `url(${this.reserva.imagenFondo})`;
+    }
+  }
+  
+  openImage(url: string) { 
+    this.photoV.show(url) 
+  }
 
-  openImage = (url: string) => { this.photoV.show(url) }
-
-  getDescription = (descripcion: string) => descripcion.split("\n").join("<br />")
+  getDescription(descripcion: string) {
+    return descripcion.split("\n").join("<br />")
+  }
+  
+  setheight(){
+    return `${document.querySelector("[col-3]").clientWidth}px`
+  }
 
   openMapa() {
     let ubicacion = this.reserva.coordenadas.split(",").map(x => parseFloat(x))
-    this.navCtrl.push(LugarMapaPage, {ubicacion: ubicacion});
+    this.navCtrl.push('LugarMapaPage', {ubicacion: ubicacion});
   }
 
   async getFotos(){
+    let {data, error} = await this.fotosP.getFotos(this.reserva.id);
+
+    if (error){
+      this.toast.showShortBottom('No se pueden mostrar las fotos').subscribe( x=> {});
+    }
+
+    if (!error){
+      this.fotos = data;
+    }
+  }
+  
+  isFotoEmpty(): boolean{
+
+    if (this.fotos == null){
+      return true;
+    }
+
+    if (this.fotos.length > 0){
+      return false;
+    }else{
+      return true;
+    }
 
   }
+
   async getContacto(){
+    let { error, data } = await this.contactoP.getContacto(this.reserva.id)
 
+    if(error){
+      this.toast.showShortBottom("error al obtener el contacto de la reserva").subscribe( x=> {});
+    }
+
+    if(!error){
+      this.contacto = data
+    }
   }
-  async getActividades(){
 
+  isContactoEmpty(): boolean{
+
+    if (this.contacto == null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  async getActividades(){
+    let { error, data } = await this.actividadP.getActividades(this.reserva.id)
+
+    if(error){
+      this.toast.showShortBottom("error al obtener actividades").subscribe( x=> {});
+    }
+
+    if(!error){
+      this.actividades = data
+    }
+  }
+
+  isActividadesEmpty(): boolean{
+
+    if (this.actividades == null){
+      return true;
+    }
+
+    if (this.actividades.length > 0 ){
+      return false;
+    }else{
+      return true;
+    }
   }
 
   /**
@@ -88,7 +169,7 @@ export class LugaresDescripcionPage {
     this.TabSlides.slideTo(index, 500);
   }
 
-  updateIndicatorPosition() {
+  updateIndicatorPosition($event, willchange) {
     // this condition is to avoid passing to incorrect index
     if( this.TabSlides.length() > this.TabSlides.getActiveIndex()) {
       this.IndicatorBar.style.webkitTransform = `translate3d( ${this.TabSlides.getActiveIndex() * 100}%,0,0)`;

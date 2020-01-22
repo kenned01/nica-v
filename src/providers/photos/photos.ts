@@ -14,7 +14,6 @@ export class PhotosProvider {
   proxy = 'https://cors-anywhere.herokuapp.com/';
 
   constructor(public http: HttpClient) {
-    console.log('Hello ContactosProvider Provider');
   }
 
   async getFotos(idreserva: string) {
@@ -45,5 +44,37 @@ export class PhotosProvider {
       }
     }
   }
+
+  async fotos(){
+    let foto = [
+      {
+        idreserva: 1,
+        uri: ''
+      },
+      {
+        idreserva: 1,
+        uri: ''
+      },
+      {
+        idreserva: 1,
+        uri: ''
+      },
+      {
+        idreserva: 1,
+        uri: ''
+      },
+      {
+        idreserva: 1,
+        uri: ''
+      },
+      {
+        idreserva: 1,
+        uri: ''
+      }
+    ]
+
+    return foto;
+  }
+  
 
 }

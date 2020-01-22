@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { LugaresPage } from '../pages/lugares/lugares';
 
 @Component({
   templateUrl: 'app.html'
@@ -10,7 +9,7 @@ import { LugaresPage } from '../pages/lugares/lugares';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LugaresPage;
+  rootPage: any = 'LugaresPage';
   showedAlert: boolean;
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public alertCtrl: AlertController) {
     this.initializeApp();

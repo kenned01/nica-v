@@ -5,8 +5,6 @@ page-lugares-descripcion {
         background: black;
         background-size: cover;
         background-position: center center;
-
-        
     }
     .expand-caption{
         height: 30px !important;
@@ -16,20 +14,9 @@ page-lugares-descripcion {
         margin-top: -33px;
         cursor: pointer;
     }
-    .btn-mapa{
-        width: 100%;
-        height: 8% !important;
-        background: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 10%;
-
-        button{
-            border-radius: 10px;
-            border-color: color($colors, links);
-            color: color($colors, links);
-        }
+    
+    button[outline]{
+        border-radius: 4px !important;
     }
 
     //swipe slices
@@ -45,6 +32,7 @@ page-lugares-descripcion {
     	border:none !important;
         color:color($colors, secondary) !important;
         text-transform: initial !important;
+        opacity: 1 !important;
     }
     .segment-button{
         font-weight: normal !important;
@@ -68,5 +56,40 @@ page-lugares-descripcion {
 
     ion-slides{
         height: auto;
+        transition-duration: 0.4s;
+        overflow: scroll;
+        margin-bottom: 50px !important;
+    }
+
+    #descripcion{
+        color: #b9b9b9;
+        p{
+            text-align: justify;
+        }
+    }
+    #fotos{
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    ion-list{
+        ion-item{
+            background-color: transparent !important;
+            color: color($colors, letra) !important;
+            p{
+                color: color($colors, letra) !important;
+            }
+        }
+    }
+    .empty{
+        p{
+            color: color($colors, letra);
+            font-size: 110%;
+            text-align: center;
+            padding: 0% 20% 0% 20%;
+        }
     }
 }

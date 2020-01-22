@@ -13,7 +13,7 @@
 <ion-content class="bg">
 
   <div class="caption" [ngStyle]="{'background-image': bgImage()}"></div>
-  <img src="assets/imgs/expand.svg"  class="expand-caption" (click)="openImage(getImage(reserva))" >
+  <img src="assets/imgs/expand.svg"  class="expand-caption" (click)="openImage(getImage(reserva.imagenFondo))" >
 
 
   <aside id="sticky">
@@ -29,23 +29,84 @@
   </aside>
 
 	<ion-slides #TabsSlider  (ionSlideDrag)="animateIndicator($event)"
-							(ionSlideWillChange)="updateIndicatorPosition()"
-							(ionSlideDidChange)="updateIndicatorPosition()"
-							(pan)="updateIndicatorPosition()"
+							(ionSlideWillChange)="updateIndicatorPosition($event, true)"
+							(ionSlideDidChange)="updateIndicatorPosition($event, true)"
+							(pan)="updateIndicatorPosition($event)"
 							[pager]="false"
-				>
-		<ion-slide>
-      <p [innerHTML]="getDescription(reserva.descripccion)"></p>
-		</ion-slide>
-		<ion-slide>
-			<h1>Page 2 </h1>
-		</ion-slide>
-		<ion-slide>
-			<h1>Page 3 </h1>
-		</ion-slide>
-		<ion-slide>
-			<h1>Page 4 </h1>
-		</ion-slide>
+        >
+        
+		<ion-slide id="descripcion">
+      <p padding [innerHTML]="getDescription(reserva.descripccion)"></p>
+    </ion-slide>
+    
+		<ion-slide id="fotos">
+      
+      <ion-grid>
+        <ion-row *ngFor="let image of fotos">
+          <ion-col col-3 [ngStyle]="{'height': setheight()}">
+            <img [src]="getImage(image.uri)" (click)="openImage(getImage(image.uri))">
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <section class="empty" *ngIf="isFotoEmpty()">
+        <p>No hay contenido que mostrar en esta sección por el momento</p>
+        <button ion-button outline color="links" (click)="getFotos()">Volver a intentar</button>
+      </section>
+
+    </ion-slide>
+    
+		<ion-slide id="actividades">
+
+			<ion-list padding *ngFor="let actividad of actividades">
+        <ion-item>
+          <ion-icon [name]="actividad.icon" item-start></ion-icon>
+            <p>{{actividad.actividad}}</p>
+        </ion-item>
+      </ion-list>
+      
+      <section class="empty" *ngIf="isActividadesEmpty()">
+        <p>No hay contenido que mostrar en esta sección por el momento</p>
+        <button ion-button outline color="links" (click)="getActividades()">Volver a intentar</button>
+      </section>
+
+    </ion-slide>
+    
+		<ion-slide id="contacto">
+      
+      <ion-list padding no-lines *ngIf="contacto != null">
+        <ion-item>
+          <ion-icon name="mail" item-start></ion-icon>
+          <p>Correo</p>
+          <p>{{contacto.correo}}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="call" item-start></ion-icon>
+          <p>Número</p>
+          <p>{{contacto.numero}}</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="map" item-start></ion-icon>
+          <p>Dirección</p>
+          <p>{{contacto.direccion}}</p>
+        </ion-item>
+
+      </ion-list>
+
+      <div *ngIf="contacto != null">
+        <button ion-button outline color="links">Ver mapa</button>
+      </div>
+
+      <section class="empty" *ngIf="isContactoEmpty()">
+        <p>No hay contenido que mostrar en esta sección por el momento</p>
+        <button ion-button outline color="links" (click)="getContacto()">Volver a intentar</button>
+      </section>
+      
+
+    </ion-slide>
+    
 	</ion-slides>
   
 </ion-content>

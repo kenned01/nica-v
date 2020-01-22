@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { 
   IonicPage, NavController, 
-  AlertController,LoadingController,
-  ToastController   } 
+  AlertController,LoadingController} 
 from 'ionic-angular';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
-
-//paginas
-import { LugaresDescripcionPage } from '../lugares-descripcion/lugares-descripcion';
 
 // import providers
 import { ReservasProvider  } from '../../providers/reservas/reservas';
 import { DepartamentosProvider } from '../../providers/departamentos/departamentos';
+
+
+//native components
+import { Toast } from '@ionic-native/toast';
 
 /**
  * Generated class for the LugaresPage page.
@@ -33,22 +33,31 @@ export class LugaresPage {
   departamentos: Array<any>
   error: boolean = false;
 
-  constructor(public navCtrl: NavController, public loadCtrl: LoadingController, 
-    public photoViewer: PhotoViewer, public alert: AlertController,
-    public toastCtrl: ToastController, public deptP: DepartamentosProvider,
-    public reservaP: ReservasProvider) {
+  constructor(private navCtrl: NavController, private loadCtrl: LoadingController, 
+    private toast: Toast, private photoViewer: PhotoViewer, private alert: AlertController,
+    private deptP: DepartamentosProvider, private reservaP: ReservasProvider) {
   }
 
   async ionViewDidLoad (){
-
-    let load = this.loadCtrl.create({
-      content: "Retrayendo información"
-    })
-    load.present()
     
-    await this.getDepts()
-    await this.getReservas()
-    load.dismiss()
+    let navigator = window.navigator;
+
+    if (!navigator.onLine){
+      this.error = true;
+    }
+
+    if (navigator.onLine){
+
+      let load = this.loadCtrl.create({
+        content: "Retrayendo información"
+      })
+      load.present()
+      
+      await this.getDepts()
+      await this.getReservas()
+      load.dismiss()
+
+    }
   }
 
   async getReservas(){
@@ -72,26 +81,22 @@ export class LugaresPage {
     }
   }
 
-  setheight = () => `${document.querySelector("[col-4]").clientWidth}px`
+  setheight(){
+    return `${document.querySelector("[col-4]").clientWidth}px`
+  }
 
   filter(){
 
     if (this.departamentos == null){
-      
-      const toast = this.toastCtrl.create({
-        message: 'No se puede hacer el filtro',
-        duration: 3000
-      });
-
-      toast.present();
+      this.toast.showShortBottom('Error, no se puede buscar por departamento').subscribe( x=> {});
       return;
     }
 
     let alertF = this.alert.create();
     alertF.setTitle('Busqueda por departamento');
-
-    //adding inputs
+    
     this.departamentos.forEach(dept =>{ 
+      //adding inputs
       alertF.addInput({
         type: 'radio',
         label: dept.nombre,
@@ -103,15 +108,11 @@ export class LugaresPage {
     alertF.addButton('Cancel');
     alertF.addButton({
       text: 'OK',
-      handler: data => {
-        console.log(data)
+      handler: value => {
+        this.reservas = this.reservasTemp.filter( reserva => reserva.idDept == value );
       }
     });
     alertF.present();
-  }
-
-  irLugarDesc(reserva){
-    this.navCtrl.push(LugaresDescripcionPage, { reserva: reserva });
   }
 
   isEmpty(){
@@ -140,6 +141,11 @@ export class LugaresPage {
     await this.getReservas()
     load.dismiss()
   }
+
+  irLugarDesc(reserva){
+    this.navCtrl.push('LugaresDescripcionPage', { reserva: reserva });
+  }
+
   openImage(img){
     this.photoViewer.show(img)
   }

@@ -14,7 +14,6 @@ export class ActividadesProvider {
   proxy = 'https://cors-anywhere.herokuapp.com/';
 
   constructor(public http: HttpClient) {
-    console.log('Hello ContactosProvider Provider');
   }
 
   async getActividades(idreserva: string) {
