@@ -45,9 +45,9 @@ export class LugaresDescripcionPage {
 
   async ionViewDidLoad() {
     this.IndicatorBar = document.getElementById("indicator");
-    //await this.getFotos()
-    //await this.getActividades()
-    //await this.getContacto()
+    await this.getFotos()
+    await this.getActividades()
+    await this.getContacto()
   }
 
   getImage(uri: string){

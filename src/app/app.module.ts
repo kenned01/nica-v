@@ -4,11 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { MyApp } from './app.component';
 
-// activities
-//import { LugarMapaPage } from '../pages/lugar-mapa/lugar-mapa';
-//import { LugaresPage } from '../pages/lugares/lugares';
-//import { LugaresDescripcionPage } from '../pages/lugares-descripcion/lugares-descripcion';
-
 //providers
 import { ReservasProvider } from '../providers/reservas/reservas';
 import { DepartamentosProvider } from '../providers/departamentos/departamentos';
@@ -21,6 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Toast } from '@ionic-native/toast';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
 @NgModule({
   declarations: [
@@ -40,6 +36,7 @@ import { Toast } from '@ionic-native/toast';
     SplashScreen,
     PhotoViewer,
     Toast,
+    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ReservasProvider,
     DepartamentosProvider,

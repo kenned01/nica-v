@@ -96,7 +96,7 @@
       </ion-list>
 
       <div *ngIf="contacto != null">
-        <button ion-button outline color="links">Ver mapa</button>
+        <button ion-button outline color="links" (click)="openMapa()">Ver mapa</button>
       </div>
 
       <section class="empty" *ngIf="isContactoEmpty()">

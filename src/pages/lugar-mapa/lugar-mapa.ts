@@ -15,17 +15,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LugarMapaPage {
 
-  ubicacion = {
-    lat : "1.00",
-    long : "-25.0"
-  }
+  ubicacion = [];
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.ubicacion = navParams.data.ubicacion;
     console.log(this.ubicacion);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LugarMapaPage');
   }
 
 }
