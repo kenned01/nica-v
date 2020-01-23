@@ -1,0 +1,3 @@
+~4.20.0 ionic-core
+AIzaSyD6swibowOeK-WxfmoXLOvWJEW6lnWl1cg api-key
+4.15.1 google-map version

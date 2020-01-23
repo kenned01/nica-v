@@ -16,7 +16,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Toast } from '@ionic-native/toast';
-import { GoogleMaps } from '@ionic-native/google-maps';
 
 @NgModule({
   declarations: [
@@ -36,7 +35,6 @@ import { GoogleMaps } from '@ionic-native/google-maps';
     SplashScreen,
     PhotoViewer,
     Toast,
-    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ReservasProvider,
     DepartamentosProvider,
