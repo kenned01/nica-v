@@ -45,9 +45,9 @@ export class LugaresDescripcionPage {
 
   async ionViewDidLoad() {
     this.IndicatorBar = document.getElementById("indicator");
-    await this.getFotos()
-    await this.getActividades()
-    await this.getContacto()
+    this.getFotos()
+    this.getActividades()
+    this.getContacto()
   }
 
   getImage(uri: string){
@@ -79,7 +79,7 @@ export class LugaresDescripcionPage {
   }
 
   openMapa() {
-    let ubicacion = this.reserva.coordenadas.split(",").map(x => parseFloat(x))
+    let ubicacion = this.reserva.coordenadas
     this.navCtrl.push('LugarMapaPage', {ubicacion: ubicacion});
   }
 

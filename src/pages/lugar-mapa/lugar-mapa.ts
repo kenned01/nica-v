@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+
 /**
  * Generated class for the LugarMapaPage page.
  *
@@ -15,13 +16,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LugarMapaPage {
 
-  ubicacion = [];
+  ubicacion: string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.ubicacion = navParams.data.ubicacion;
-    console.log(this.ubicacion);
   }
 
   ionViewDidLoad() {
+
+    this.ubicacion = this.navParams.data.ubicacion;
+    this.setMap();
+
   }
 
+  setMap(){
+    let map = document.getElementById("map")
+    map.innerHTML = this.ubicacion;
+  }
+  
 }
