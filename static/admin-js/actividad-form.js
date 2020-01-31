@@ -80,7 +80,7 @@ async function Guardar(headers, data){
     if (json.mensaje != null)
       window.location.href = "/admin-actividad?msj=3"
     else
-      window.location.href = "/admin-contacto?msj=1"
+      window.location.href = "/admin-actividad?msj=1"
 
   } catch (error) {
     window.location.href = "/admin-actividad?msj=3"
