@@ -1,9 +1,0 @@
-to activate enviroment run the following command in the cmd
-$ venv\Scripts\activate
-
-this application also implements some dependecies
-
-1- flask
-2- flaskRestful
-3- psycopg2
-4- gunicorn
